@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'hugging_face' => [
+        'inference_api' =>[
+            'key' => env('HUGGING_FACE_INFERENCE_API_KEY'),
+        ]
+    ]
+
 ];

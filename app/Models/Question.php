@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Database\Factories\QuestionFactory;
-use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property-read int $id
@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read int $order
  * @property-read string $text
  * @property-read string $answer
- * @property-read string $metadata
- * @property-read DateTime $created_at
- * @property-read DateTime $updated_at
+ * @property-read array $metadata
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
  */
 class Question extends Model
 {
@@ -24,11 +24,14 @@ class Question extends Model
     use HasFactory;
 
     /**
-     * @var string[]
+     * @return array<string, string>
      */
-    protected $casts = [
-        'metadata' => 'array'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'metadata' => 'array',
+        ];
+    }
 
     /**
      * @return BelongsTo<Exercise, $this>

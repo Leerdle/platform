@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
-use Carbon\Traits\Date;
+use App\Enums\ExerciseLanguageCode;
+use App\Enums\ExerciseSubject;
+use App\Enums\ExerciseType;
 use Database\Factories\ExerciseFactory;
-use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property-read int $id
- * @property-read Date $date
+ * @property-read Carbon $date
  * @property-read string $title
- * @property-read int $language_code
- * @property-read int $subject
- * @property-read int $type
- * @property-read string $metadata
- * @property-read DateTime $created_at
- * @property-read DateTime $updated_at
+ * @property-read ExerciseLanguageCode $language_code
+ * @property-read ExerciseSubject $subject
+ * @property-read ExerciseType $type
+ * @property-read array $metadata
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
  */
 class Exercise extends Model
 {
@@ -26,12 +28,18 @@ class Exercise extends Model
     use HasFactory;
 
     /**
-     * @var string[]
+     * @return array<string, string>
      */
-    protected $casts = [
-        'date' => 'datetime',
-        'metadata' => 'array'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+            'language_code' => ExerciseLanguageCode::class,
+            'subject' => ExerciseSubject::class,
+            'type' => ExerciseType::class,
+            'metadata' => 'array',
+        ];
+    }
 
     /**
      * @return HasMany<Question, $this>

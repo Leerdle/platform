@@ -10,6 +10,7 @@ test('to array', function () {
     expect(array_keys($question->toArray()))
         ->toBe([
             'id',
+            'exercise_id',
             'order',
             'text',
             'answer',

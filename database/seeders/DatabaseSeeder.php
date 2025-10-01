@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Exercise;
 use App\Models\Question;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,6 +20,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Question::factory(10)->create();
+        foreach(range(1, 5) as $index) {
+            $exercise = Exercise::factory()->create();
+
+            Question::factory(5)
+                ->sequence(fn ($sequence) => ['order' => $sequence->index + 1])
+                ->create([
+                    'exercise_id' => $exercise->id,
+                ]);
+        }
     }
 }

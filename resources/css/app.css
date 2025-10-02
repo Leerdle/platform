@@ -1,1 +1,9 @@
 @import 'tailwindcss';
+
+@theme {
+    --color-background: rgba(246, 246, 246, 1);
+}
+
+* {
+    font-family: "Roboto", sans-serif;
+}

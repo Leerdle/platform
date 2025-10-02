@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         foreach(range(1, 5) as $index) {
             $exercise = Exercise::factory()->create();
 
-            Question::factory(5)
+            Question::factory(10)
                 ->sequence(fn ($sequence) => ['order' => $sequence->index + 1])
                 ->create([
                     'exercise_id' => $exercise->id,

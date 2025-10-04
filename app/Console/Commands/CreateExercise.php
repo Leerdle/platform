@@ -50,7 +50,8 @@ class CreateExercise extends Command
 
             $exerciseData = [
                 'date' => $nextDate->toDateString(),
-                'title' => 'Dutch Imperfect Tense Practice',
+                'title' => 'Imperfectum Oefening',
+                'description' => 'Je ziet 10 zinnen. Maak de zinnen af met het perfectum van het verbum tussen haakjes.',
                 'language_code' => ExerciseLanguageCode::NL->value,
                 'subject' => ExerciseSubject::IMPERFECT_TENSE->value,
                 'type' => ExerciseType::FILL_IN_THE_BLANKS->value,

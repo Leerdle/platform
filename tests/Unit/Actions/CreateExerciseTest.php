@@ -13,7 +13,8 @@ it('may create an exercise', function () {
 
     $exercise = $action->handle([
         'date' => '2025-10-02',
-        'title' => 'Dutch Imperfect Tense Practice',
+        'title' => 'Exercise Title',
+        'description' => 'Exercise Description',
         'language_code' => ExerciseLanguageCode::NL,
         'subject' => ExerciseSubject::IMPERFECT_TENSE,
         'type' => ExerciseType::FILL_IN_THE_BLANKS,
@@ -21,10 +22,10 @@ it('may create an exercise', function () {
     ]);
 
     expect($exercise)->toBeInstanceOf(Exercise::class)
-        ->and($exercise->title)->toBe('Dutch Imperfect Tense Practice')
+        ->and($exercise->title)->toBe('Exercise Title')
         ->and($exercise->language_code)->toBe(ExerciseLanguageCode::NL);
 
     $this->assertDatabaseHas('exercises', [
-        'title' => 'Dutch Imperfect Tense Practice',
+        'title' => 'Exercise Title',
     ]);
 });

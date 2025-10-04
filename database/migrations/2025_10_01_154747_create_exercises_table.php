@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('title');
+            $table->text('description');
             $table->enum('language_code', array_column(ExerciseLanguageCode::cases(), 'value'));
             $table->enum('subject', array_column(ExerciseSubject::cases(), 'value'));
             $table->enum('type', array_column(ExerciseType::cases(), 'value'));

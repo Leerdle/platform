@@ -23,6 +23,7 @@ class StoreExerciseRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
             'language_code' => ['required', Rule::enum(ExerciseLanguageCode::class)],
             'subject' => ['required', Rule::enum(ExerciseSubject::class)],
             'type' => ['required', Rule::enum(ExerciseType::class)],

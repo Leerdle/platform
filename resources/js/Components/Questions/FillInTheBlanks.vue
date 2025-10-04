@@ -27,27 +27,23 @@ const inputClasses = computed(() => {
 </script>
 
 <template>
-    <div class="flex gap-3 lg:gap-6 items-start lg:items-center">
-        <span class="rounded-full flex-none bg-black w-8 h-8 text-white flex items-center justify-center shadow-md font-extrabold">
-            {{ question.order }}
-        </span>
+    <div class="card">
+        <template v-for="(part, index) in setupInputField" :key="index">
+            {{ part }}
+            <input
+                v-if="index < setupInputField.length - 1"
+                type="text"
+                v-model="model"
+                :class="inputClasses"
+                :placeholder="question.metadata.infinitive"
+                :disabled="isSubmitted"
+            />
+        </template>
 
-        <p class="text-lg flex-1">
-            <template v-for="(part, index) in setupInputField" :key="index">
-                {{ part }}
-                <input
-                    v-if="index < setupInputField.length - 1"
-                    type="text"
-                    v-model="model"
-                    :class="inputClasses"
-                    :placeholder="question.metadata.infinitive"
-                    :disabled="isSubmitted"
-                />
-            </template>
+        <span class="!font-semibold">({{ question.metadata.infinitive }})</span>
 
-            <span v-if="isSubmitted && !isCorrect" class="ml-2 text-green-600 font-semibold">
-                ({{ question.answer }})
-            </span>
-        </p>
+        <div v-if="isSubmitted && !isCorrect" class="mt-4 text-green-600">
+            Juiste Antwoord: <span class="!font-bold">{{ question.answer }}</span>
+        </div>
     </div>
 </template>

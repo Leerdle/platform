@@ -13,6 +13,7 @@ test('to array', function () {
             'id',
             'date',
             'title',
+            'description',
             'language_code',
             'subject',
             'type',

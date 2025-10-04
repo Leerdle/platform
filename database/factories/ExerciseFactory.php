@@ -22,6 +22,7 @@ class ExerciseFactory extends Factory
         return [
             'date' => Carbon::now()->toDateString(),
             'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
             'language_code' => $this->faker->randomElement(ExerciseLanguageCode::cases()),
             'subject' => $this->faker->randomElement(ExerciseSubject::cases()),
             'type' => $this->faker->randomElement(ExerciseType::cases()),

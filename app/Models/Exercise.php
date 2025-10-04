@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property-read int $id
  * @property-read Carbon $date
  * @property-read string $title
+ * @property-read string $description
  * @property-read ExerciseLanguageCode $language_code
  * @property-read ExerciseSubject $subject
  * @property-read ExerciseType $type

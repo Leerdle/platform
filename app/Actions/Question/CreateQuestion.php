@@ -1,3 +1,20 @@
 <?php
 
-// TODO ACTION + REQUEST
+namespace App\Actions\Question;
+
+use App\Models\Question;
+use Illuminate\Support\Facades\DB;
+
+final class CreateQuestion
+{
+    /**
+     * @param  array<mixed>  $attributes
+     * @return mixed
+     */
+    public function handle(array $attributes)
+    {
+        return DB::transaction(function () use ($attributes) {
+            return Question::create($attributes);
+        });
+    }
+}

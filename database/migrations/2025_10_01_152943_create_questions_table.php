@@ -14,13 +14,10 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('exercise_id')->constrained('exercises');
-            $table->integer('order');
             $table->string('text');
             $table->string('answer');
             $table->json('metadata')->nullable();
             $table->timestamps();
-
-            $table->index(['id', 'order']);
         });
     }
 };

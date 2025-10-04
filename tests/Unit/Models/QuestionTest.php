@@ -12,7 +12,6 @@ test('to array', function () {
         ->toBe([
             'id',
             'exercise_id',
-            'order',
             'text',
             'answer',
             'metadata',

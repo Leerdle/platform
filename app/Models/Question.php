@@ -11,7 +11,6 @@ use Illuminate\Support\Carbon;
 /**
  * @property-read int $id
  * @property-read int $exercise_id
- * @property-read int $order
  * @property-read string $text
  * @property-read string $answer
  * @property-read array $metadata

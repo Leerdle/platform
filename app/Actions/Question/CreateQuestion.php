@@ -11,10 +11,11 @@ final class CreateQuestion
      * @param  array<mixed>  $attributes
      * @return mixed
      */
-    public function handle(array $attributes)
+    public function handle(array $attributes): Question
     {
         return DB::transaction(function () use ($attributes) {
-            return Question::create($attributes);
+            return Question::query()
+                ->create($attributes);
         });
     }
 }

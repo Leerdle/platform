@@ -26,13 +26,13 @@ const checkAnswers = () => {
     <Head title="Daily Game" />
 
     <main>
-        <div class="max-w-7xl mx-auto p-4 h-screen lg:p-6 lg:grid lg:grid-cols-2 lg:gap-8">
-            <div class="mb-6 lg:md-8">
-                <h1 class="mb-4 !font-bold text-2xl lg:mb-6">{{ exercise.title }}</h1>
-                <p class="text-md">{{ exercise.description }}</p>
+        <div class="max-w-4xl mx-auto p-4 h-screen lg:p-6">
+            <div class="mb-6 lg:p-6 lg:mb-0">
+                <h1 class="mb-4 !font-bold text-2xl lg:mb-6 lg:text-center">{{ exercise.title }}</h1>
+                <p class="text-md lg:text-center">{{ exercise.description }}</p>
             </div>
 
-            <div class="pb-6 lg:p-6 lg:overflow-y-scroll">
+            <div class="pb-6 lg:p-6">
                 <div class="flex flex-col gap-6 mb-6 lg:gap-8 lg:mb-8">
                     <FillInTheBlanks
                         v-for="(question, index) in exercise.questions"
@@ -41,6 +41,7 @@ const checkAnswers = () => {
                         v-model="answers[question.id]"
                         :is-correct="results[question.id]"
                         :is-submitted="isSubmitted"
+                        :index="index"
                     />
                 </div>
 

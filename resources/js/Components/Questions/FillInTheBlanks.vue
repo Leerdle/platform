@@ -5,6 +5,7 @@ const model = defineModel();
 
 const props = defineProps({
     question: Object,
+    index: Number,
     isCorrect: Boolean,
     isSubmitted: Boolean
 });
@@ -27,23 +28,27 @@ const inputClasses = computed(() => {
 </script>
 
 <template>
-    <div class="card">
-        <template v-for="(part, index) in setupInputField" :key="index">
-            {{ part }}
-            <input
-                v-if="index < setupInputField.length - 1"
-                type="text"
-                v-model="model"
-                :class="inputClasses"
-                :placeholder="question.metadata.infinitive"
-                :disabled="isSubmitted"
-            />
-        </template>
+    <div class="card flex gap-2">
+        <div class="px-2 py-8 self-center !font-bold lg:px-4">{{ index + 1 }}.</div>
 
-        <span class="!font-semibold">({{ question.metadata.infinitive }})</span>
+        <div class="px-2 py-8">
+            <template v-for="(part, index) in setupInputField" :key="index">
+                {{ part }}
+                <input
+                    v-if="index < setupInputField.length - 1"
+                    type="text"
+                    v-model="model"
+                    :class="inputClasses"
+                    :placeholder="question.metadata.infinitive"
+                    :disabled="isSubmitted"
+                />
+            </template>
 
-        <div v-if="isSubmitted && !isCorrect" class="mt-4 text-green-600">
-            Juiste Antwoord: <span class="!font-bold">{{ question.answer }}</span>
+            <span class="!font-semibold">({{ question.metadata.infinitive }})</span>
+
+            <div v-if="isSubmitted && !isCorrect" class="mt-4 text-green-600">
+                Juiste Antwoord: <span class="!font-bold">{{ question.answer }}</span>
+            </div>
         </div>
     </div>
 </template>

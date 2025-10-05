@@ -11,10 +11,11 @@ final class CreateExercise
      * @param  array<mixed>  $attributes
      * @return mixed
      */
-    public function handle(array $attributes)
+    public function handle(array $attributes): Exercise
     {
         return DB::transaction(function () use ($attributes) {
-            return Exercise::create($attributes);
+            return Exercise::query()
+                ->create($attributes);
         });
     }
 }

@@ -21,6 +21,7 @@ class StoreQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'exercise_id' => ['required', 'integer'],
             'text' => ['required', 'string', 'max:255'],
             'answer' => ['required', 'string', 'max:255'],
             'metadata' => ['nullable', 'array'],

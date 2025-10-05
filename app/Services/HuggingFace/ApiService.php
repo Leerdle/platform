@@ -26,9 +26,11 @@ final readonly class ApiService
      */
     public function apiCall(array $body)
     {
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->apiKey,
-        ])->post('https://router.huggingface.co/v1/chat/completions', $body);
+        return Http::timeout(120)
+            ->retry(3, 1000)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->apiKey,
+            ])->post('https://router.huggingface.co/v1/chat/completions', $body);
     }
 }

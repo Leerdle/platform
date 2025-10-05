@@ -3,6 +3,7 @@
 namespace App\Services\Exercise;
 
 use App\Http\Requests\Question\StoreQuestionRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Enums\ExerciseLanguageCode;
@@ -34,7 +35,7 @@ final readonly class ExerciseService
     {
         $this->apiService = new ApiService();
         $this->messageContent = "Give me 10 challenging sentences in Dutch using the imperfect tense at C1 language level. The statements should be challenging and realistic using good grammar and interesting vocabulary. Include at least 1 question. Use a mix of regular and irregular verbs. Make sure all verbs are unique in the exercise. Include both singular and plural forms. The imperfect verb in each sentence should be replaced with <mask> and the answer should be provided separately. I expect the response back in JSON format such as the following: [{'question': 'Ik <mask> naar de supermarkt.', 'answer': 'ging', 'infinitive': 'gaan'}, {'question': 'Waar <mask> jullie gisteren avond?', 'answer': 'waren', 'infinitive': 'zijn'}]";
-        $this->exerciseTitle = "Nederlandstalige Oefening - Imperfectum ";
+        $this->exerciseTitle = "Nederlandstalige Oefening - Imperfectum";
         $this->exerciseDescription = "Je ziet 10 zinnen. Maak de zinnen af met het perfectum van het verbum tussen haakjes.";
     }
 
@@ -47,6 +48,8 @@ final readonly class ExerciseService
      */
     public function get(): JsonResponse
     {
+        Log::info('Starting API call to generate exercise');
+
         $response = $this->apiService->apiCall([
             "messages" => [
                 [
@@ -60,6 +63,8 @@ final readonly class ExerciseService
             "seed" => rand(1, 1000000)
         ]);
 
+        Log::info('API call completed', ['status' => $response->status()]);
+
         return response()->json($response->json(), $response->status());
     }
 
@@ -69,28 +74,41 @@ final readonly class ExerciseService
      */
     public function process(JsonResponse $data): array
     {
+        Log::info('Processing API response');
+
         $response = json_decode($data->getContent(), true);
 
         if (!isset($response['choices'][0]['message']['content'])) {
+            Log::error('Invalid API response structure', ['response' => $response]);
             throw new RuntimeException('Invalid API response structure');
         }
 
         $contentJson = $response['choices'][0]['message']['content'];
+        Log::debug('Raw content extracted', ['content' => $contentJson]);
 
         $contentJson = trim($contentJson);
         $contentJson = preg_replace('/^```(?:json)?\s*/m', '', $contentJson);
         $contentJson = preg_replace('/\s*```\s*$/m', '', $contentJson);
         $contentJson = trim($contentJson);
 
+        Log::debug('Cleaned JSON content', ['content' => $contentJson]);
+
         $exercises = json_decode($contentJson, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
+            Log::error('Failed to parse exercise JSON', [
+                'error' => json_last_error_msg(),
+                'content' => $contentJson
+            ]);
             throw new RuntimeException('Failed to parse exercise JSON: ' . json_last_error_msg());
         }
 
         if (!is_array($exercises)) {
+            Log::error('Invalid exercises format', ['type' => gettype($exercises)]);
             throw new RuntimeException('Expected array of exercises, got: ' . gettype($exercises));
         }
+
+        Log::info('Successfully processed exercises', ['count' => count($exercises)]);
 
         return $exercises;
     }
@@ -101,6 +119,8 @@ final readonly class ExerciseService
      */
     public function validateExercise(): array
     {
+        Log::info('Validating exercise data');
+
         $latestExercise = Exercise::query()
             ->orderBy('date', 'desc')
             ->first();
@@ -117,12 +137,17 @@ final readonly class ExerciseService
             'metadata' => null,
         ];
 
-        $validator = Validator::make($exerciseData, app(new StoreExerciseRequest)->rules());
+        Log::debug('Exercise data prepared', ['data' => $exerciseData]);
+
+        $validator = Validator::make($exerciseData, (new StoreExerciseRequest)->rules());
 
         if ($validator->fails())
         {
+            Log::error('Exercise validation failed', ['errors' => $validator->errors()->toArray()]);
             throw new ValidationException($validator);
         }
+
+        Log::info('Exercise validation passed');
 
         return $validator->validated();
     }
@@ -135,6 +160,8 @@ final readonly class ExerciseService
      */
     public function validateQuestion(array $data, int $exerciseId): array
     {
+        Log::debug('Validating question', ['raw_data' => $data, 'exercise_id' => $exerciseId]);
+
         $questionData = [
             'exercise_id' => $exerciseId,
             'text' => Str::trim($data['question']),
@@ -144,12 +171,18 @@ final readonly class ExerciseService
             ],
         ];
 
-        $validator = Validator::make($questionData, app(new StoreQuestionRequest)->rules());
+        $validator = Validator::make($questionData, (new StoreQuestionRequest)->rules());
 
         if ($validator->fails())
         {
+            Log::error('Question validation failed', [
+                'errors' => $validator->errors()->toArray(),
+                'data' => $questionData
+            ]);
             throw new ValidationException($validator);
         }
+
+        Log::debug('Question validation passed');
 
         return $validator->validated();
     }

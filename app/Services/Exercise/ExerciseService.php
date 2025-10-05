@@ -86,10 +86,14 @@ final readonly class ExerciseService
         $contentJson = $response['choices'][0]['message']['content'];
         Log::debug('Raw content extracted', ['content' => $contentJson]);
 
-        $contentJson = trim($contentJson);
-        $contentJson = preg_replace('/^```(?:json)?\s*/m', '', $contentJson);
-        $contentJson = preg_replace('/\s*```\s*$/m', '', $contentJson);
-        $contentJson = trim($contentJson);
+        if (preg_match('/```(?:json)?\s*(\[.*?])\s*```/s', $contentJson, $matches)) {
+            $contentJson = $matches[1];
+        } else {
+            $contentJson = trim($contentJson);
+            $contentJson = preg_replace('/^```(?:json)?\s*/m', '', $contentJson);
+            $contentJson = preg_replace('/```.*$/s', '', $contentJson);
+            $contentJson = trim($contentJson);
+        }
 
         Log::debug('Cleaned JSON content', ['content' => $contentJson]);
 

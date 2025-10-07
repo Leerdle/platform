@@ -7,7 +7,6 @@ defineProps({
 </script>
 
 <template>
-    {{ console.log(exercise) }}
     <Head title="Daily Game" />
 
     <main class="bg-[#404db6] min-h-screen flex items-center justify-center p-5">

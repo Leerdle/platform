@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property-read ExerciseLanguageCode $language_code
  * @property-read ExerciseSubject $subject
  * @property-read ExerciseType $type
- * @property-read array $metadata
+ * @property-read array<mixed> $metadata
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
  */

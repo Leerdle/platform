@@ -16,9 +16,9 @@ class ExerciseController extends Controller
     public function index(): Response
     {
         $exercise = Exercise::query()
+            ->with('questions')
             ->whereDate('date', Carbon::today()->toDateString())
-            ->first()
-            ->load('questions');
+            ->first();
 
         return Inertia::render('Home', [
             'exercise' => $exercise,

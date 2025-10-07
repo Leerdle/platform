@@ -11,7 +11,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * @return void
      */
     public function run(): void
     {
@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             $exercise = Exercise::factory()->create();
 
             Question::factory(10)
-                ->sequence(fn ($sequence) => ['order' => $sequence->index + 1])
                 ->create([
                     'exercise_id' => $exercise->id,
                 ]);

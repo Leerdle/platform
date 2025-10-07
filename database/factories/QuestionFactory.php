@@ -18,10 +18,11 @@ class QuestionFactory extends Factory
     {
         return [
             'exercise_id' => Exercise::factory(),
-            'order' => $this->faker->numberBetween(1, 5),
             'text' => $this->faker->words(4, true),
             'answer' => $this->faker->word(),
-            'metadata' => null
+            'metadata' => [
+                'infinitive' => $this->faker->word(),
+            ]
         ];
     }
 }

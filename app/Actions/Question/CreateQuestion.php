@@ -9,7 +9,7 @@ final class CreateQuestion
 {
     /**
      * @param  array<mixed>  $attributes
-     * @return mixed
+     * @return Question
      */
     public function handle(array $attributes): Question
     {

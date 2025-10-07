@@ -22,6 +22,6 @@ it('may create a question', function () {
         ->and($question->answer)->toBe('Answer Text');
 
     $this->assertDatabaseHas('questions', [
-        'text' => 'Question Title',
+        'text' => 'Question Text',
     ]);
 });

@@ -38,7 +38,7 @@ const hideCard = () => {
     <div class="bg-white rounded-2xl p-6 md:p-14 shadow-xl w-full text-center min-h-[330px] flex flex-col items-center justify-center transition-all duration-500"
          :style="{
             zIndex: zIndex,
-            transform: isHiding ? 'translateY(-50px)' : 'translateY(0)',
+            transform: isHiding ? 'translateY(50px)' : 'translateY(0)',
             opacity: isHiding ? 0 : 1,
             display: hide ? 'none' : 'block'
          }">
@@ -83,13 +83,13 @@ const hideCard = () => {
                 <button type="submit"
                     v-if="!isSubmitted"
                     class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
-                    ✓
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
                 </button>
                 <button type="button"
                     @click="hideCard"
                     v-else
                     class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
-                    →
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
                 </button>
             </div>
         </form>

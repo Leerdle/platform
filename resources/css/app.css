@@ -1,1 +1,37 @@
 @import 'tailwindcss';
+
+@theme {
+    --color-bg-dark: hsl(261 23% 91%);
+    --color-bg: hsl(261 55% 96%);
+    --color-bg-light: hsl(261 100% 100%);
+    --color-text: hsl(264 46% 6%);
+    --color-text-muted: hsl(262 11% 30%);
+    --color-highlight: hsl(261 100% 100%);
+    --color-border: hsl(262 8% 53%);
+    --color-border-muted: hsl(262 11% 64%);
+    --color-primary: hsl(266 35% 34%);
+    --color-primary-hover: hsl(266 35% 45%);
+    --color-secondary: hsl(72 100% 15%);
+    --color-danger: hsl(9 21% 41%);
+    --color-warning: hsl(52 23% 34%);
+    --color-success: hsl(147 19% 36%);
+    --color-info: hsl(217 22% 41%);
+}
+
+* {
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: 0.4px;
+}
+
+.card {
+    background: linear-gradient(0deg, var(--color-bg) 80%, var(--color-bg-light));
+    box-shadow: 0px 2px 2px oklch(0 0 0 / 0.2), 0px 4px 4px oklch(0 0 0 / 0.1);
+    @apply rounded-xl border-2 border-bg;
+}
+
+.card:hover {
+    background: var(--color-bg-light);
+}

@@ -3,7 +3,7 @@ import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
 import { ZiggyVue } from "ziggy-js";
 
 createInertiaApp({
-    title: (title) => `Starter Kit | ${title}`,
+    title: (title) => `Leerdle | ${title}`,
     resolve: (name) => {
         const pages = import.meta.glob('./Pages/**/*.vue', {
             eager: true

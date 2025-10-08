@@ -1,0 +1,3 @@
+- Change from infinitive to handler
+- Styling of the frontend
+- Specific verba added

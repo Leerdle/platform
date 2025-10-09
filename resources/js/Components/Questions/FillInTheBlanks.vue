@@ -21,8 +21,16 @@ const inputClasses = computed(() => {
     return 'border-b-2 outline-none px-1 mx-1 w-36 transition-colors';
 });
 
+const submitPress = () => {
+    if (!isSubmitted.value) {
+        checkAnswer();
+    } else {
+        hideCard();
+    }
+};
+
 const checkAnswer = () => {
-    isCorrect.value = givenAnswer.value === props.question.answer;
+    isCorrect.value = givenAnswer.value.toLowerCase() === props.question.answer.toLowerCase();
     isSubmitted.value = true;
 };
 
@@ -42,13 +50,14 @@ const hideCard = () => {
             opacity: isHiding ? 0 : 1,
             display: hide ? 'none' : 'block'
          }">
-        <form @submit.prevent="checkAnswer" class="flex flex-col items-center justify-center h-full">
+        <form @submit.prevent="submitPress" class="flex flex-col items-center justify-center h-full">
             <span class="text-lg leading-relaxed text-gray-800">
                 <template v-for="(part, index) in setupInputField" :key="index">
                     {{ part }}
                     <input
                         v-if="index < setupInputField.length - 1"
                         type="text"
+                        autocapitalize="none"
                         v-model="givenAnswer"
                         :class="[inputClasses, {
                             'border-green-500 bg-green-50' : isSubmitted && isCorrect,
@@ -85,8 +94,7 @@ const hideCard = () => {
                     class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
                 </button>
-                <button type="button"
-                    @click="hideCard"
+                <button type="submit"
                     v-else
                     class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>

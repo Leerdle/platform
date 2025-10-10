@@ -23,8 +23,10 @@ class StoreQuestionRequest extends FormRequest
         return [
             'exercise_id' => ['required', 'integer'],
             'text' => ['required', 'string', 'max:255'],
-            'answer' => ['required', 'string', 'max:255'],
+            'answer' => ['required', 'array'],
+            'answer.*' => ['string', 'max:255'],
             'metadata' => ['nullable', 'array'],
+            'metadata.infinitive' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

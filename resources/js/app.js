@@ -1,6 +1,8 @@
 import { createApp, h } from 'vue';
-import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
 import { ZiggyVue } from "ziggy-js";
+import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
+import CustomButton from "@/Components/Buttons/CustomButton.vue";
+import MainLayout from "@/Layouts/MainLayout.vue";
 
 createInertiaApp({
     title: (title) => `Leerdle | ${title}`,
@@ -10,7 +12,7 @@ createInertiaApp({
         });
         let page = pages[`./Pages/${name}.vue`];
 
-        page.default.layout = page.default.layout || null;
+        page.default.layout = page.default.layout || MainLayout;
         return page;
     },
     setup({ el, App, props, plugin }) {
@@ -19,6 +21,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .component("Head", Head)
             .component("Link", Link)
+            .component("Button", CustomButton)
             .mount(el)
     },
 })

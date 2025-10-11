@@ -1,6 +1,6 @@
 <script setup>
 import {computed} from "vue";
-import gapAttackIcon from '/public/storage/icons/gap-attack-icon.png';
+import gapAttackIcon from '/public/icons/gap-attack-icon.png';
 import LinkItem from "@/Components/Links/LinkItem.vue";
 
 const props = defineProps({

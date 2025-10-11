@@ -1,9 +1,0 @@
-<script setup>
-
-</script>
-
-<template>
-    <Head title="Home" />
-
-    HOMEEE
-</template>

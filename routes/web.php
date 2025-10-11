@@ -5,9 +5,7 @@ use App\Http\Controllers\GapAttackController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-// To change to commented one
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::redirect('/', '/exercises/gap-attack')->name('home');
+ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // To change to commented one
 // Route::get('/exercises', [ExerciseController::class, 'index'])->name('exercise.index');

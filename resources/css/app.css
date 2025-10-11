@@ -1,37 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&display=swap');
 @import 'tailwindcss';
 
 @theme {
-    --color-bg-dark: hsl(261 23% 91%);
-    --color-bg: hsl(261 55% 96%);
-    --color-bg-light: hsl(261 100% 100%);
-    --color-text: hsl(264 46% 6%);
-    --color-text-muted: hsl(262 11% 30%);
-    --color-highlight: hsl(261 100% 100%);
-    --color-border: hsl(262 8% 53%);
-    --color-border-muted: hsl(262 11% 64%);
-    --color-primary: hsl(266 35% 34%);
-    --color-primary-hover: hsl(266 35% 45%);
-    --color-secondary: hsl(72 100% 15%);
-    --color-danger: hsl(9 21% 41%);
-    --color-warning: hsl(52 23% 34%);
-    --color-success: hsl(147 19% 36%);
-    --color-info: hsl(217 22% 41%);
+    --font-grotesk: "Space Grotesk", sans-serif;
+    --font-lora: "Lora", serif;
+
+    --color-card-grey: hsl(60, 3.4%, 88.6%);
+    --color-card-lavender: hsl(248.3, 100%, 82.9%);
+    --color-card-green: hsl(171.7, 29.9%, 81%);
+    --color-card-lilac: hsl(312, 40.3%, 75.7%);
+
+    --color-grey-hover: hsl(0, 0%, 98%);
 }
 
-* {
-    font-family: "Manrope", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-weight: 300;
-    letter-spacing: 0.4px;
+h1, h2, h3, h4, h5, h6, button {
+    font-family: var(--font-grotesk);
+}
+
+span, p  {
+    font-family: var(--font-lora);
 }
 
 .card {
-    background: linear-gradient(0deg, var(--color-bg) 80%, var(--color-bg-light));
     box-shadow: 0px 2px 2px oklch(0 0 0 / 0.2), 0px 4px 4px oklch(0 0 0 / 0.1);
-    @apply rounded-xl border-2 border-bg;
+    @apply rounded-xl border-2;
 }
 
-.card:hover {
-    background: var(--color-bg-light);
+@layer utilities {
+    .border-1 {
+        border-width: 1px;
+    }
 }

@@ -1,7 +1,6 @@
 <script setup>
 import FillInTheBlanks from "@/Components/Questions/FillInTheBlanks.vue";
-import GameTitle from "@/Components/Titles/GameTitle.vue";
-import GameLayout from "@/Layouts/GameLayout.vue";
+import PageTitle from "@/Components/Titles/PageTitle.vue";
 
 const props = defineProps({
     exercise: Object
@@ -10,13 +9,13 @@ const props = defineProps({
 
 <template>
     <Head :title="props.exercise?.title ?? 'Daily Game'" />
+        <PageTitle
+            v-if="props.exercise?.title !== '' && props.exercise?.description !== ''"
+            :title="props.exercise.title"
+            :description="props.exercise.description"
+        />
 
-    <GameLayout>
-        <GameTitle v-if="props.exercise?.title !== '' && props.exercise?.description !== ''"
-                   :title="props.exercise.title"
-                   :description="props.exercise.description" />
-
-        <div class="grid w-full max-w-md" v-if="props.exercise?.questions?.length > 0">
+        <div class="grid w-full max-w-md m-auto" v-if="props.exercise?.questions?.length > 0">
             <FillInTheBlanks
                 v-for="(question, index) in props.exercise?.questions"
                 :key="index"
@@ -26,5 +25,4 @@ const props = defineProps({
                 class="col-start-1 row-start-1"
             />
         </div>
-    </GameLayout>
 </template>

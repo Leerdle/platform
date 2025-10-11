@@ -1,11 +1,10 @@
 <script setup>
-import logoUrl from '/public/storage/logo.png';
 </script>
 
 <template>
-    <div class="w-full h-14 flex">
-        <Link :href="route('home')" class="m-auto h-5">
-            <img :src="logoUrl" alt="Leerdle Logo" class="h-full"  />
+    <div class="w-full h-14 flex border-b-2 sticky top-0 bg-white">
+        <Link :href="route('home')" class="m-auto">
+            <span class="!font-black text-2xl tracking-wide !font-grotesk">LEERDLE</span>
         </Link>
     </div>
 </template>

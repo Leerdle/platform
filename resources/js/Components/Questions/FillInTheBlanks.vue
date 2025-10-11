@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
 
-const givenAnswer = ref('');
+const givenAnswers = ref([]);
 const isSubmitted = ref(false);
-const isCorrect = ref(false);
+const answerResults = ref([]);
 const isHiding = ref(false);
 const hide = ref(false);
 
@@ -21,6 +21,18 @@ const inputClasses = computed(() => {
     return 'border-b-2 outline-none px-1 mx-1 w-36 transition-colors';
 });
 
+const infinitiveList = computed(() => {
+    return props.question.metadata.infinitive.join(', ');
+});
+
+const allCorrect = computed(() => {
+    return answerResults.value.every(result => result === true);
+});
+
+const allIncorrect = computed(() => {
+    return answerResults.value.every(result => result === false);
+});
+
 const submitPress = () => {
     if (!isSubmitted.value) {
         checkAnswer();
@@ -30,15 +42,39 @@ const submitPress = () => {
 };
 
 const checkAnswer = () => {
-    isCorrect.value = givenAnswer.value.toLowerCase() === props.question.answer.toLowerCase();
+    // Ensure answers array is properly initialized
+    const answers = Array.isArray(props.question.answer)
+        ? props.question.answer
+        : [props.question.answer];
+
+    // Check each answer
+    answerResults.value = answers.map((correctAnswer, index) => {
+        const userAnswer = givenAnswers.value[index] || '';
+        return userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+    });
+
     isSubmitted.value = true;
 };
 
 const hideCard = () => {
     isHiding.value = true;
+
     setTimeout(function() {
         hide.value = true;
     }, 500);
+};
+
+const getInputClass = (index) => {
+    if (!isSubmitted.value) return inputClasses.value;
+
+    const isCorrect = answerResults.value[index];
+    return [
+        inputClasses.value,
+        {
+            'border-green-500 bg-green-50': isCorrect,
+            'border-red-500 bg-red-50': !isCorrect
+        }
+    ];
 };
 </script>
 
@@ -58,45 +94,63 @@ const hideCard = () => {
                         v-if="index < setupInputField.length - 1"
                         type="text"
                         autocapitalize="none"
-                        v-model="givenAnswer"
-                        :class="[inputClasses, {
-                            'border-green-500 bg-green-50' : isSubmitted && isCorrect,
-                            'border-red-500 bg-red-50' : isSubmitted && !isCorrect
-                        }]"
-                        :placeholder="question.metadata.infinitive"
+                        v-model="givenAnswers[index]"
+                        :class="getInputClass(index)"
+                        :placeholder="question.metadata.infinitive[index]"
                         :readonly="isSubmitted"
                         autocomplete="off"
-                        aria-label="Fill in the blank"
+                        :aria-label="`Fill in blank ${index + 1}`"
                     />
                 </template>
-                <span class="!font-bold">({{ question.metadata.infinitive }})</span>
+                <span class="!font-bold">({{ infinitiveList }})</span>
             </span>
 
             <div v-if="isSubmitted" class="mt-8">
-                <div v-if="isCorrect" class="flex items-center gap-2 justify-center text-green-600 font-semibold text-lg">
+                <div v-if="allCorrect" class="flex items-center gap-2 justify-center text-green-600 font-semibold text-lg">
                     <span class="text-2xl">✓</span>
                     <span class="!font-bold">Proficiat!</span>
                 </div>
-                <div v-else class="text-red-600">
-                    <div class="flex items-center gap-2 justify-center font-semibold mb-1">
+                <div v-else-if="allIncorrect" class="text-red-600">
+                    <div class="flex items-center gap-2 justify-center font-semibold mb-2">
                         <span class="text-xl">✕</span>
                         <span class="!font-bold">Fout!</span>
                     </div>
-                    <div class="text-gray-700 text-sm">
-                        Antwoord: <strong class="!font-bold text-red-600">{{ question.answer }}</strong>
+                    <div class="text-gray-700 text-sm space-y-1">
+                        <div v-for="(answer, idx) in (Array.isArray(question.answer) ? question.answer : [question.answer])" :key="idx">
+                            <span class="text-gray-600">{{ question.metadata.infinitive[idx] }}:</span>
+                            <strong class="!font-bold text-red-600 ml-1">{{ answer }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="text-gray-700">
+                    <div class="flex items-center gap-2 justify-center font-semibold mb-2 text-orange-600">
+                        <span class="text-xl">~</span>
+                        <span class="!font-bold">Gedeeltelijk correct</span>
+                    </div>
+                    <div class="text-sm space-y-1">
+                        <div v-for="(answer, idx) in (Array.isArray(question.answer) ? question.answer : [question.answer])" :key="idx">
+                            <span v-if="answerResults[idx]" class="text-green-600">
+                                <span class="text-gray-600">{{ question.metadata.infinitive[idx] }}:</span>
+                                <strong class="!font-bold ml-1">{{ answer }}</strong> ✓
+                            </span>
+                            <span v-else class="text-red-600">
+                                <span class="text-gray-600">{{ question.metadata.infinitive[idx] }}:</span>
+                                <strong class="!font-bold ml-1">{{ answer }}</strong> ✕
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="flex gap-10 mt-8 justify-center">
                 <button type="submit"
-                    v-if="!isSubmitted"
-                    class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
+                        v-if="!isSubmitted"
+                        class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
                 </button>
                 <button type="submit"
-                    v-else
-                    class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
+                        v-else
+                        class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
                 </button>
             </div>

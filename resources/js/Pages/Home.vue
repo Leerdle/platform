@@ -20,6 +20,7 @@ const description = computed(() => {
 </script>
 
 <template>
+    {{ console.log(exercise) }}
     <Head :title="title" />
 
     <main class="bg-[#404db6] min-h-screen flex items-center justify-center p-5">

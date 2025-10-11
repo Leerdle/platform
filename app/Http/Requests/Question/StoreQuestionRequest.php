@@ -26,7 +26,8 @@ class StoreQuestionRequest extends FormRequest
             'answer' => ['required', 'array'],
             'answer.*' => ['string', 'max:255'],
             'metadata' => ['nullable', 'array'],
-            'metadata.infinitive' => ['nullable', 'string', 'max:255'],
+            'metadata.infinitive' => ['nullable', 'array'],
+            'metadata.infinitive.*' => ['string', 'max:255'],
         ];
     }
 }

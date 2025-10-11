@@ -1,9 +1,6 @@
 <script setup>
-
 </script>
 
 <template>
-    <Head title="Home" />
-
-    HOMEEE
+    Exercises
 </template>

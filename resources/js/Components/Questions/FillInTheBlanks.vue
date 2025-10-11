@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed } from "vue";
+import Button from "@/Components/Buttons/CustomButton.vue";
+import CheckMark from "@/Components/Icons/CheckMark.vue";
+import ArrowRight from "@/Components/Icons/ArrowRight.vue";
 
 const givenAnswers = ref([]);
 const isSubmitted = ref(false);
@@ -143,16 +146,10 @@ const getInputClass = (index) => {
             </div>
 
             <div class="flex gap-10 mt-8 justify-center">
-                <button type="submit"
-                        v-if="!isSubmitted"
-                        class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
-                </button>
-                <button type="submit"
-                        v-else
-                        class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
-                </button>
+                <Button :is-submit="true">
+                    <CheckMark v-if="!isSubmitted" />
+                    <ArrowRight v-else />
+                </Button>
             </div>
         </form>
     </div>

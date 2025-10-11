@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ExerciseController extends Controller
+class HomeController extends Controller
 {
     /**
      * @return Response
      */
     public function index(): Response
     {
-        return Inertia::render('Exercises/Index', []);
+        return Inertia::render('Home', []);
     }
 }

@@ -141,7 +141,7 @@ final readonly class ExerciseService
             'description' => $this->exerciseDescription,
             'language_code' => ExerciseLanguageCode::NL->value,
             'subject' => ExerciseSubject::IMPERFECT_TENSE->value,
-            'type' => ExerciseType::FILL_IN_THE_BLANKS->value,
+            'type' => ExerciseType::GAP_ATTACK->value,
             'metadata' => null,
         ];
 

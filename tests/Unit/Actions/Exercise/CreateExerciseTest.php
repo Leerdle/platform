@@ -17,7 +17,7 @@ it('may create an exercise', function () {
         'description' => 'Exercise Description',
         'language_code' => ExerciseLanguageCode::NL,
         'subject' => ExerciseSubject::IMPERFECT_TENSE,
-        'type' => ExerciseType::FILL_IN_THE_BLANKS,
+        'type' => ExerciseType::GAP_ATTACK,
         'metadata' => null,
     ]);
 

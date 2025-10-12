@@ -51,7 +51,4 @@ jobs:
             cd /var/www/html/platform
             php artisan migrate --force
             php artisan optimize
-
-      - name: Restart SSR Server
-        run: |
-          sudo supervisorctl restart inertia-ssr
+            sudo supervisorctl restart inertia-ssr

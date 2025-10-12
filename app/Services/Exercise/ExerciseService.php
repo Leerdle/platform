@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Exercise;
 
 use App\Http\Requests\Question\StoreQuestionRequest;
@@ -31,12 +33,20 @@ final readonly class ExerciseService
     private string $exerciseTitle;
     private string $exerciseDescription;
 
-    public function __construct()
+    public function __construct(
+        private string $language,
+        private string $type,
+        private string $subject,
+        private TemplateService $templateService
+    )
     {
         $this->apiService = new ApiService();
-        $this->messageContent = "Give me 10 challenging sentences in Dutch using the imperfect tense at C1 language level. The statements should be challenging and realistic using good grammar and interesting vocabulary. Include at least 2 questions. Include at least 1 sentence where 2 imperfect tense verbs are used. Use a mix of regular and irregular verbs. Make sure all verbs are unique in the exercise. Include both singular and plural forms. The imperfect verb in each sentence should be replaced with <mask> and the answer should be provided separately. I expect the response back in JSON format such as the following: [{'question': 'Ik <mask> naar de supermarkt.', 'answer': ['ging'], 'infinitive': ['gaan']}, {'question': 'Waar <mask> jullie gisteren avond?', 'answer': ['waren'], 'infinitive': ['zijn']}, {'question': 'Ik <mask> thuis en <mask> een koffie.', 'answer': ['bleef', 'dronk'], 'infinitive': ['blijven', 'drinken']}]";
-        $this->exerciseTitle = "Nederlandstalige Oefening - Imperfectum";
-        $this->exerciseDescription = "Je ziet 10 zinnen. Maak de zinnen af met het imperfectum van het verbum tussen haakjes.";
+
+        $template = $this->templateService->getExerciseTemplate($this->language, $this->type, $this->subject);
+
+        $this->messageContent = $template['message'] ?? '';
+        $this->exerciseTitle = $template['title'] ?? '';
+        $this->exerciseDescription = $template['description'] ?? '';
     }
 
     /**
@@ -59,7 +69,7 @@ final readonly class ExerciseService
             ],
             "model" => "CohereLabs/command-a-reasoning-08-2025:cohere",
             "stream" => false,
-            "temperature" => 0.8,
+            "temperature" => 0.95,
             "seed" => rand(1, 1000000)
         ]);
 

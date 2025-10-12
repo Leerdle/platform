@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Actions\Question\CreateQuestion;
 use App\Actions\Exercise\CreateExercise as CreateExerciseAction;
 use App\Services\Exercise\ExerciseService;
+use App\Services\Exercise\TemplateService;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -15,15 +16,22 @@ class CreateExercise extends Command
     /**
      * @var string
      */
-    protected $signature = 'create:exercise';
+    protected $signature = 'create:exercise {lang} {type} {subject}';
 
     /**
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create a new exercise with generated questions';
 
-    public function handle(ExerciseService $exerciseService, CreateExerciseAction $createExerciseAction, CreateQuestion $createQuestion): void
+    public function handle(CreateExerciseAction $createExerciseAction, CreateQuestion $createQuestion): void
     {
+        $exerciseService = new ExerciseService(
+            $this->argument('lang'),
+            $this->argument('type'),
+            $this->argument('subject'),
+            app(TemplateService::class)
+        );
+
         try {
             Log::info('Starting exercise creation command');
 
